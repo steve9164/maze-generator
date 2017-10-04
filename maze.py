@@ -1,3 +1,5 @@
+
+
 '''
 Maze Generator
 By Stephen Davies
@@ -9,7 +11,7 @@ Builds a maze using tree construction
 # - Build maze and tree at the same time
 # - Start at some square - say (0, 0) for now - and randomly add unused square to leaves of the tree
 
-import random
+import random, json
 from collections import namedtuple
 SquareNode = namedtuple('SquareNode', ['coord', 'children'])
 Coordinate = namedtuple('Coordinate', ['x', 'y'])
@@ -28,11 +30,11 @@ class MazeTree(object):
         Generate a string representation of the maze by starting with a maze with all walls,
         then removing walls while traversing the maze tree
         '''
-        maze = [[' '] + self.width*['—', ' ']]
+        maze = [[' '] + self.width*['-', ' ']]
         for _ in range(self.height):
             maze += [
                 ['|'] + self.width*['x', '|'],
-                [' '] + self.width*['—', ' ']
+                [' '] + self.width*['-', ' ']
             ]
 
         def remove_wall(coord1, coord2):
@@ -55,6 +57,52 @@ class MazeTree(object):
         maze[2*self.start_square.y+1][2*self.start_square.x+1] = 'S'
         maze[2*self.end_square.y+1][2*self.end_square.x+1] = 'E'
         return '\n'.join(''.join(row) for row in maze)
+
+    def to_json(self):
+        maze = []
+        for _ in range(self.height):
+            row = []
+            for _ in range(self.width):
+                sq = {
+                    'right': True,
+                    'left': True,
+                    'top': True,
+                    'bottom': True,
+                    'start': False,
+                    'end': False
+                }
+                row.append(sq)
+            maze.append(row)
+
+        def remove_wall(coord1, coord2):
+            'Remove wall between neighbouring squares at coord1 and coord2'
+            #coord = Coordinate(min(coord1.x, coord2.x), min(coord1.y, coord2.y))
+            if coord1.x > coord2.x:
+                maze[coord1.y][coord1.x]['left'] = False
+                maze[coord2.y][coord2.x]['right'] = False
+            if coord1.x < coord2.x:
+                maze[coord1.y][coord1.x]['right'] = False
+                maze[coord2.y][coord2.x]['left'] = False
+            if coord1.y > coord2.y:
+                maze[coord1.y][coord1.x]['top'] = False
+                maze[coord2.y][coord2.x]['bottom'] = False
+            if coord1.y < coord2.y:
+                maze[coord1.y][coord1.x]['bottom'] = False
+                maze[coord2.y][coord2.x]['top'] = False
+        def remove_walls(node):
+            'Remove walls between node and its children'
+            for child in node.children:
+                remove_wall(node.coord, child.coord)
+                remove_walls(child)
+
+        remove_walls(self.tree)
+        maze[self.start_square.y][self.start_square.x]['start'] = True
+        maze[self.end_square.y][self.end_square.x]['end'] = True
+        return json.dumps(maze)
+
+
+
+
 
     def list_paths(self):
         'Find all paths from the root node to leaf nodes'
