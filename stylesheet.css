@@ -1,0 +1,52 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    }
+#mainHeader {
+
+    font-family: "Helvetica Neue",Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+
+}
+h2 {
+
+        font-family: "Helvetica Neue",Arial, Helvetica, sans-serif;
+        font-size: 30px;
+        font-weight: 200;
+
+    }
+#mazeTable {
+
+    width: 300px;
+    height:300px;
+    padding: 5px;
+    background-color: grey;
+
+}
+
+.mazeCell{
+
+    float: left;
+    width: 26px;
+    height: 26px;
+    margin: 0px;
+    background-color: lightgrey;
+    border: 2px solid lightgrey;
+
+}
+
+.row {
+    width: auto;
+    float: left;
+}
+
+#startCell {
+
+    width: 30px;
+    height: 30px;
+    background-color: greenyellow;
+
+}
+
