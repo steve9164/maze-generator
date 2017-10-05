@@ -5,7 +5,9 @@ function buttonPressed(){
     widthValue = document.getElementById("width").value;
     console.log(heightValue);
     console.log(widthValue);
-    var siteURL = 'https://lwaz1cl0ol.execute-api.us-east-1.amazonaws.com/dev/generate_maze?height='+ heightValue.toString() +  '&width=' + widthValue.toString();
+    // 'https://lwaz1cl0ol.execute-api.us-east-1.amazonaws.com/dev/generate_maze?height='
+    // 'http://localhost:8080/generate_maze?height='
+    var siteURL = 'https://lwaz1cl0ol.execute-api.us-east-1.amazonaws.com/dev/generate_maze?height=' + heightValue.toString() +  '&width=' + widthValue.toString();
     fetch (siteURL).then(function(data){return data.json();}).then(function(json){
 
         var boxDelete = document.getElementById('holderBox');
@@ -34,14 +36,14 @@ function buttonPressed(){
                     var cell = document.createElement("div");
                     var cellName = "sqr" + x.toString();
                     cell.id = cellName;
-                    cell.className = "mazeCell";
-                    cell.onmouseover ="this.mazeCell='hoveredMazeCell'"
+
                     if(sqr.right){cell.style.borderRightColor = "black";}
                     if(sqr.left){cell.style.borderLeftColor = "black";}
                     if(sqr.top){cell.style.borderTopColor = "black";}
                     if(sqr.bottom){cell.style.borderBottomColor = "black";}
                     if(sqr.start){cell.style.backgroundColor = "#11CC11";}
                     if(sqr.end){cell.style.backgroundColor = "red";}
+                    if(sqr.pos){cell.className = "mozeCell";} else {cell.className = "mazeCell";}
                     rowSVR.appendChild(cell);
 
                 }
@@ -57,39 +59,18 @@ function buttonPressed(){
 
         })
 }
+function solveButtonPressed(){
+
+    console.log("PRESSED");
+    var solCells = document.getElementsByClassName('mozeCell');
+    console.log(solCells);
+    var i;
+    for (i = 0; i < solCells.length; i++) {
+        cellChange = solCells[i];
+        cellChange.classList.add("revealedCells");
+    }
 
 
+}
 
 
-                // for (var j = 0; j < 10; j++)
-                // {
-                //     var rowName = "row" + j.toString();
-                //     var rowJS = document.createElement("div");
-                //     rowJS.id = rowName;
-                //     rowJS.className = "row";
-                //     document.getElementById("jsBox").appendChild(rowJS);
-
-                //     for (var i=0; i < 10; i++){
-                //         var cellName = "cell" + i.toString();
-                //         var cell = document.createElement("div");
-                //         cell.id = cellName;
-                //         cell.className = "mazeCell";
-                //         var x = Math.random();
-                //         if (x < 0.275) {
-                //             cell.style.borderTopColor = "black";
-                //         }
-                //         var x = Math.random();
-                //         if (x < 0.275) {
-                //             cell.style.borderBottomColor = "black";
-                //         }
-                //         var x = Math.random();
-                //         if (x < 0.275) {
-                //             cell.style.borderLeftColor = "black";
-                //         }
-                //         var x = Math.random();
-                //         if (x < 0.275) {
-                //             cell.style.borderRightColor = "black";
-                //         }
-                //         rowJS.appendChild(cell)
-                // }
-                // }

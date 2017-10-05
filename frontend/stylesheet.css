@@ -39,6 +39,30 @@ h2 {
     border: 2px solid white;
 
  }
+ .mozeCell{
+
+        float: left;
+        width: 26px;
+        height: 26px;
+        margin: 0px;
+        background-color: #EEEEEE;
+        border: 2px solid #EEEEEE;
+
+
+}
+.mozeCell:hover{
+
+    background-color: white;
+    border: 2px solid white;
+
+}
+.revealedCells{
+
+        background-color: rgb(38, 111, 255);
+        border: 2px solid rgb(38, 111, 255);
+
+
+    }
 
 .row {
     width: auto;

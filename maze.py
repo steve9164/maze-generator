@@ -24,6 +24,7 @@ class MazeTree(object):
         self.start_square = None
         self.end_square = None
         self.tree = None
+        self.solution = None
 
     def __str__(self):
         '''
@@ -69,14 +70,14 @@ class MazeTree(object):
                     'top': True,
                     'bottom': True,
                     'start': False,
-                    'end': False
+                    'end': False,
+                    'pos': False
                 }
                 row.append(sq)
             maze.append(row)
 
         def remove_wall(coord1, coord2):
             'Remove wall between neighbouring squares at coord1 and coord2'
-            #coord = Coordinate(min(coord1.x, coord2.x), min(coord1.y, coord2.y))
             if coord1.x > coord2.x:
                 maze[coord1.y][coord1.x]['left'] = False
                 maze[coord2.y][coord2.x]['right'] = False
@@ -98,6 +99,8 @@ class MazeTree(object):
         remove_walls(self.tree)
         maze[self.start_square.y][self.start_square.x]['start'] = True
         maze[self.end_square.y][self.end_square.x]['end'] = True
+        for node in self.solution:
+            maze[node.coord.y][node.coord.x]['pos'] = True
         return json.dumps(maze)
 
 
@@ -129,24 +132,49 @@ class MazeTree(object):
         maze_tree = cls(width, height)
         maze_tree.start_square = Coordinate(0,0)
         maze_tree.tree = SquareNode(coord=maze_tree.start_square, children=[])
-        tree_nodes = [maze_tree.tree]
         used_squares = set([maze_tree.tree.coord])
+        coordNodeDict = {}
+        coordNodeDict[maze_tree.start_square] = maze_tree.tree
+        choiceList = []
+        all_choices = {}
+        for adjacent in get_neighbouring_coordinates(maze_tree.tree.coord):
+            edge = (adjacent, maze_tree.start_square)
+            choiceList.append(edge)
+            all_choices[edge] = len(choiceList)-1
+
         while len(used_squares) < width*height:
             # Choose a square to add to the maze, and the node it should be added to
-            all_choices = [(adjacent, node) for node in tree_nodes for adjacent in set(get_neighbouring_coordinates(node.coord)) - used_squares]
-            next_square, node = random.choice(all_choices)
+
+            next_square, current_square = random.choice(choiceList)
             # Create the new node and place it in the MazeTree
             new_node = SquareNode(coord=next_square, children=[])
-            node.children.append(new_node)
+            coordNodeDict[current_square].children.append(new_node)
+            coordNodeDict[next_square] = new_node
             # Record the new node and the square it occupies
-            tree_nodes.append(new_node)
             used_squares.add(next_square)
+            for neighbour in get_neighbouring_coordinates(next_square):
+                edge = (next_square, neighbour)
+                edge2 = (neighbour, next_square)
+                if (edge in all_choices):
+                    index = all_choices.pop(edge)
+                    last = choiceList[-1]
+                    choiceList[index] = last
+                    choiceList.pop()
+                    all_choices[last] = index
+
+                else:
+                    choiceList.append(edge2)
+                    all_choices[edge2] = len(choiceList) - 1
+
+
+
         # Now that the maze is built, choose the longest (break ties randomly) and use
         #  the leaf as the end square of the maze
         paths = maze_tree.list_paths()
         max_path_length = max(len(path) for path in paths)
         maze_path = random.choice([path for path in paths if len(path) == max_path_length])
         maze_tree.end_square = maze_path[-1].coord
+        maze_tree.solution = maze_path
         return maze_tree
 
 def print_depth(node, depth):
@@ -160,6 +188,6 @@ def print_depth(node, depth):
 
 
 if __name__ == "__main__":
-    mt = MazeTree.generate_random_maze(10,8)
+    mt = MazeTree.generate_random_maze(10,10)
     print(mt)
-    print_depth(mt.tree, 0)
+
