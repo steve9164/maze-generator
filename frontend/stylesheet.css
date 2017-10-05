@@ -1,0 +1,125 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    background-color: #EEEEEE;
+    }
+#mainHeader {
+
+    font-family: "Helvetica Neue",Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    margin-left: 30px;
+
+
+}
+h2 {
+
+        font-family: "Helvetica Neue",Arial, Helvetica, sans-serif;
+        font-size: 30px;
+        font-weight: 200;
+
+    }
+
+
+.mazeCell{
+
+    float: left;
+    width: 26px;
+    height: 26px;
+    margin: 0px;
+    background-color: #EEEEEE;
+    border: 2px solid #EEEEEE;
+
+
+}
+.mazeCell:hover{
+
+    background-color: white;
+    border: 2px solid white;
+
+ }
+
+.row {
+    width: auto;
+    float: left;
+}
+
+#startCell {
+
+    width: 30px;
+    height: 30px;
+    background-color: #33FF33;
+
+}
+#holderBox{
+
+    width: auto;
+    height: auto;
+
+}
+.inputText{
+
+    font-family: "Helvetica Neue",Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: 200;
+    float: left;
+    line-height: 50px;
+    padding-right: 20px;
+    margin: 0;
+
+
+}
+.Input{
+
+    width: 150px;
+    height: 50px;
+    float:left;
+    padding: 20px;
+    font-size: 20px;
+    background-color:#EEEEEE;
+    border-color: #DDDDDD;
+    border-style: solid;
+
+}
+.divX{
+
+    width: auto;
+    height: 50px;
+    height: auto;
+    float: left;
+
+
+}
+#holder{
+
+width: 520px;
+height: 50px;
+padding: 25px;
+
+}
+.button{
+
+    width: 100px;
+    height: 30px;
+    background-color: #0080FF;
+
+
+}
+.buttonText{
+
+    color: white;
+    font-family: "Helvetica Neue",Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    margin:0px;
+
+
+    font-weight: 400;
+
+}
+#right{
+
+    padding-right: 20px;
+
+}
+

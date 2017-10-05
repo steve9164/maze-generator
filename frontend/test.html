@@ -131,9 +131,23 @@
         <br>
         <center><div id="jsBox" style="width: 300px; height: 300px; background-color: lightgrey;"></div></center> -->
 
-        <h2>Server Maze</h2>
+        <h id="mainHeader">Server Maze</h>
         <br>
-        <center><div id="svrBox" style="width: 600px; height: 300px; background-color: lightgrey;"></div></center>
+<center>
+        <div id="holder">
+        <div class="divX" id="right"><p class="inputText">Height</p><input type="number" id="height" class="Input" value="10"></div>
+
+                <div class="divX"><p class="inputText">Width</p><input type="number" id="width" class="Input" value="10"></div>
+                </div>
+
+                <button class="button" onclick="buttonPressed()"><p class="buttonText">Generate</p></button>
+
+        </center>
+        <br>
+        <center><div id="svrBox" style="background-color: lightgrey;">
+
+
+        </div></center>
 <br>
 <br>
 <br>
@@ -143,6 +157,7 @@
     </body>
 
     <script src="stuff.js"></script>
+
 </html>
 
 
